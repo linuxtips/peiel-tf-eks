@@ -35,7 +35,7 @@ variable "env" {
 
 variable "aws_account" {
   type    = list(string)
-  default = [296686755935]
+  default = []
 }
 
 variable "ng_min_size" {
