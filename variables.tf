@@ -8,16 +8,6 @@ variable "subnets" {
   default = []
 }
 
-variable "aws_iam_access_key" {
-  type    = string
-  default = null
-}
-
-variable "aws_iam_secret_key" {
-  type    = string
-  default = null
-}
-
 variable "app" {
   type    = string
   default = ""
