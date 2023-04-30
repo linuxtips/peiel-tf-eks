@@ -5,7 +5,7 @@ variable "vpc_cidr" {
 
 variable "subnets" {
   type    = list(string)
-  default = ""
+  default = []
 }
 
 variable "aws_iam_access_key" {
