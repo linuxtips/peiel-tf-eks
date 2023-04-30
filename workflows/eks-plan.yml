@@ -1,0 +1,44 @@
+name: 'Create K8S Cluster - Plan'
+
+on:
+  workflow_dispatch:
+    ref: "refs/heads/main"
+
+permissions:
+  contents: read
+
+jobs:
+  terraform:
+    name: 'Terraform - Plan k8s'
+    runs-on: ubuntu-latest
+    environment: production
+    defaults:
+      run:
+        shell: bash
+        working-directory: .
+
+    steps:
+    # Checkout the repository to the GitHub Actions runner
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v1
+
+    # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
+    - name: Terraform Init
+      run: terraform init -backend-config="bucket=peiel--tf-backend" -backend-config="key=eks" -backend-config="region=us-west-2"
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.tf_var_aws_iam_access_key }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.tf_var_aws_iam_secret_key }}
+        TF_VAR_aws_iam_access_key: ${{ secrets.TF_VAR_aws_iam_access_key }}
+        TF_VAR_aws_iam_secret_key: ${{ secrets.TF_VAR_aws_iam_secret_key }}
+
+    - name: Terraform Plan
+      run: terraform plan -input=false
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.tf_var_aws_iam_access_key }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.tf_var_aws_iam_secret_key }}
+        TF_VAR_aws_iam_access_key: ${{ secrets.TF_VAR_aws_iam_access_key }}
+        TF_VAR_aws_iam_secret_key: ${{ secrets.TF_VAR_aws_iam_secret_key }}
