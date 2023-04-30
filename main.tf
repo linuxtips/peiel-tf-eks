@@ -53,18 +53,6 @@ data "aws_subnets" "main" {
   }
 }
 
-resource "aws_db_subnet_group" "main" {
-  name       = format("subnetdb_%s_%s_%s_001", var.app, var.region, var.env)
-  subnet_ids = data.aws_subnets.main.ids
-
-  tags = {
-    app         = var.app
-    environment = var.env
-    region      = var.region
-    Name        = format("subnetdb_%s_%s_%s_001", var.app, var.region, var.env)
-  }
-}
-
 resource "aws_route_table" "main" {
   vpc_id = aws_vpc.main.id
 
