@@ -5,9 +5,9 @@ terraform {
       version = "~> 4.65.0"
     }
   }
-  backend "s3" {
-    bucket = "peiel--tf-backend"
-  }
+  # backend "s3" {
+  #   bucket = "peiel--tf-backend"
+  # }
 }
 
 provider "aws" {
